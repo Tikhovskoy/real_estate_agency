@@ -3,6 +3,16 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from phonenumber_field.modelfields import PhoneNumberField
 
+class Owner(models.Model):
+    name = models.CharField('ФИО собственника', max_length=200)
+    phone = models.CharField('Телефон собственника', max_length=20, blank=True, null=True)
+    email = models.EmailField('Email собственника', blank=True, null=True)
+
+    flats = models.ManyToManyField('property.Flat', related_name='owners', blank=True)
+
+    def __str__(self):
+        return self.name
+
 class Complaint(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
     flat = models.ForeignKey('property.Flat', on_delete=models.CASCADE, verbose_name="Квартира, на которую пожаловались")  # Используем строковое имя модели
