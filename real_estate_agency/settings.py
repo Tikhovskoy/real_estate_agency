@@ -101,9 +101,6 @@ DATABASES = {
     ),
 }
 
-# Static files (CSS, JavaScript, Images)
-STATIC_URL = '/static/'
-
 # Путь, куда будут сохраняться все собранные статики (создастся папка 'staticfiles')
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
@@ -111,3 +108,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'property/static'),
 ]
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
