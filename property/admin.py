@@ -4,10 +4,10 @@ from .models import Flat, Complaint, Owner
 class OwnerAdmin(admin.ModelAdmin):
     list_display = ['name', 'phone', 'email']
     search_fields = ['name', 'phone', 'email']
-    raw_id_fields = ['flats']
+    raw_id_fields = ['owned_flats']
 
 class FlatAdmin(admin.ModelAdmin):
-    search_fields = ['town', 'address', 'owner']
+    search_fields = ['town', 'address', 'owner_deprecated']
     readonly_fields = ['created_at']
     list_display = ['address', 'price', 'new_building', 'construction_year', 'town', 'owner_pure_phone'] 
     list_editable = ['new_building']
@@ -15,7 +15,7 @@ class FlatAdmin(admin.ModelAdmin):
     raw_id_fields = ['likes', 'owners']
 
 class ComplaintAdmin(admin.ModelAdmin):
-    raw_id_fields = ('flat',) 
+    raw_id_fields = ['flat']
     list_display = ['user', 'flat', 'complaint_text', 'created_at'] 
     search_fields = ['user__username', 'flat__address', 'complaint_text']
 

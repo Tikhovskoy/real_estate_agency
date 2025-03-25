@@ -6,10 +6,11 @@ from phonenumber_field.modelfields import PhoneNumberField
 class Owner(models.Model):
     name = models.CharField('ФИО собственника', max_length=200)
     phone = models.CharField('Телефон собственника', max_length=20, blank=True, null=True)
+    pure_phone = PhoneNumberField('Нормализованный номер владельца', blank=True, null=True, region='RU')
     email = models.EmailField('Email собственника', blank=True, null=True)
 
-    flats = models.ManyToManyField('property.Flat', related_name='owners', blank=True)
-
+    owned_flats = models.ManyToManyField('property.Flat', related_name='flats_owned_by_owner', blank=True)
+    
     def __str__(self):
         return self.name
 
@@ -24,9 +25,10 @@ class Complaint(models.Model):
 
 
 class Flat(models.Model):
-    owner = models.CharField('ФИО владельца', max_length=200)
+    owner_deprecated = models.CharField('ФИО владельца', max_length=200)
     owners_phonenumber = models.CharField('Номер владельца', max_length=20)
     owner_pure_phone = PhoneNumberField('Нормализованный номер владельца', blank=True, null=True, region='RU')
+    owners = models.ManyToManyField('property.Owner', related_name='flats_as_owner', blank=True)
     created_at = models.DateTimeField(
         'Когда создано объявление',
         default=timezone.now,
