@@ -100,3 +100,14 @@ DATABASES = {
         os.getenv('DATABASE', 'sqlite:///db.sqlite3')
     ),
 }
+
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'
+
+# Путь, куда будут сохраняться все собранные статики (создастся папка 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Путь, где находятся твои кастомные статики (например, твой файл admin_styles.css)
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'property/static'),
+]

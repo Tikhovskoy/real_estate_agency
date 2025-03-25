@@ -1,0 +1,6 @@
+/* flat_admin_styles.css */
+.filter-spec tr td ul {
+    max-height: 300px !important;
+    overflow-y: auto !important;
+    padding-right: 10px !important;
+}
