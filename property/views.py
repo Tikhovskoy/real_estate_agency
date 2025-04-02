@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from property.models import Flat
+from django.utils.text import slugify
 
 
 def format_price(value):
@@ -15,6 +16,8 @@ def show_flats(request):
     max_price = format_price(request.GET.get('max_price'))
     new_building = request.GET.get('new_building')
 
+    active_town = slugify(town) if town else None
+
     flats = Flat.objects.all()
     if town:
         flats = flats.filter(town=town)
@@ -25,12 +28,13 @@ def show_flats(request):
     if new_building == '1':
         flats = flats.filter(new_building=True)
 
-    towns = Flat.objects.values_list('town', flat=True).distinct().order_by('town')
+    towns = sorted(set(Flat.objects.values_list('town', flat=True)))
+    towns_with_slugs = [(town, slugify(town)) for town in towns]
     
     return render(request, 'flats_list.html', {
         'flats': flats[:10],
-        'towns': towns,
-        'active_town': town,
+        'towns': towns_with_slugs,
+        'active_town': active_town,
         'max_price': max_price,
         'min_price': min_price,
         'new_building': new_building 

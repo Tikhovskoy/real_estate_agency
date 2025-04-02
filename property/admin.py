@@ -7,7 +7,7 @@ class OwnerInline(admin.TabularInline):
     extra = 1
 
 class OwnerAdmin(admin.ModelAdmin):
-    list_display = ['name', 'phone', 'email']
+    list_display = ['name', 'phone', 'pure_phone', 'email']
     search_fields = ['name', 'phone', 'email']
     raw_id_fields = ['owned_flats']
 
