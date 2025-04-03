@@ -22,7 +22,7 @@ class Flat(models.Model):
     rooms_number = models.IntegerField('Количество комнат', db_index=True)
     living_area = models.IntegerField('Жилая площадь (кв.м)', null=True, blank=True)
 
-    has_balcony = models.BooleanField('Есть балкон', null=True)
+    has_balcony = models.BooleanField('Есть балкон', blank=True)
     active = models.BooleanField('Активно', db_index=True)
     construction_year = models.IntegerField('Год постройки дома', null=True, blank=True, db_index=True)
 
