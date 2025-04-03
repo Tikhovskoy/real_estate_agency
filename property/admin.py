@@ -1,29 +1,39 @@
 from django.contrib import admin
 from .models import Flat, Complaint, Owner
 
-class OwnerInline(admin.TabularInline):
-    model = Owner.owned_flats.through
-    raw_id_fields = ['owner']
-    extra = 1
 
-class OwnerAdmin(admin.ModelAdmin):
-    list_display = ['name', 'phone', 'pure_phone', 'email']
-    search_fields = ['name', 'phone', 'email']
-    raw_id_fields = ['owned_flats']
+class OwnerInline(admin.TabularInline):
+    model = Flat.owners.through
+    raw_id_fields = ['owner']
+
 
 class FlatAdmin(admin.ModelAdmin):
-    search_fields = ['town', 'address', 'owner_deprecated']
+    search_fields = ['town', 'address']
     readonly_fields = ['created_at']
-    list_display = ['address', 'price', 'new_building', 'construction_year', 'town', 'owner_pure_phone'] 
+    list_display = ['address', 'price', 'new_building', 'construction_year', 'town', 'owner_names', 'owner_phones']
     list_editable = ['new_building']
     list_filter = ['new_building', 'town', 'active', 'has_balcony', 'construction_year']
     raw_id_fields = ['likes', 'owners']
-    inlines = [OwnerInline] 
+    inlines = [OwnerInline]
+
+    def owner_names(self, obj):
+        return ', '.join([owner.name for owner in obj.owners.all()])
+    owner_names.short_description = 'Владельцы'
+
+    def owner_phones(self, obj):
+        return ', '.join([str(owner.pure_phone) for owner in obj.owners.all() if owner.pure_phone])
+    owner_phones.short_description = 'Телефоны'
+
 
 class ComplaintAdmin(admin.ModelAdmin):
-    raw_id_fields = ['flat']
-    list_display = ['user', 'flat', 'complaint_text', 'created_at'] 
-    search_fields = ['user__username', 'flat__address', 'complaint_text']
+    raw_id_fields = ['user', 'flat']
+
+
+class OwnerAdmin(admin.ModelAdmin):
+    list_display = ['name', 'pure_phone']
+    search_fields = ['name', 'pure_phone']
+    raw_id_fields = ['flats_as_owner']
+
 
 admin.site.register(Flat, FlatAdmin)
 admin.site.register(Complaint, ComplaintAdmin)
