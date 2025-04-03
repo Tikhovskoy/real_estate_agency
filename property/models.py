@@ -44,7 +44,7 @@ class Complaint(models.Model):
 
 class Owner(models.Model):
     name = models.CharField('ФИО владельца', max_length=200)
-    pure_phone = PhoneNumberField('Телефон владельца', region='RU')
+    pure_phone = PhoneNumberField('Телефон владельца', region='RU', blank=False, null=False)
 
     def __str__(self):
         return self.name
