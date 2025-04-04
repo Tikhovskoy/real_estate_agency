@@ -10,7 +10,7 @@ class Flat(models.Model):
         default=timezone.now,
         db_index=True)
 
-    new_building = models.BooleanField('Новостройка', null=True, blank=True)
+    new_building = models.BooleanField('Новостройка', null=True, blank=True, db_index=True)
     description = models.TextField('Текст объявления', blank=True)
     price = models.IntegerField('Цена квартиры', db_index=True)
 
